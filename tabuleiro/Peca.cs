@@ -4,7 +4,7 @@ using System.Text;
 
 namespace tabuleiro
 {
-    internal class Peca
+    abstract class Peca
     {
         public Posicao Posicao { get; set; }
         public Cor Cor { get; protected set; }
@@ -18,5 +18,34 @@ namespace tabuleiro
             Cor = cor;
             qteMovimentos = 0;  
         }
+
+        public void incrementarQteMovimentos()
+        {
+            qteMovimentos++;
+        }
+        public void decrementarQteMovimentos()
+        {
+            qteMovimentos--;
+        }
+        public bool existeMovimentosPossiveis()
+        {
+            bool[,] mat = movimentosPossiveis();
+            for(int i=0; i< Tab.Linhas; i++)
+            {
+                for (int j = 0; j < Tab.Colunas; j++)
+                {
+                    if (mat[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        public bool movimentoPossivel(Posicao pos)
+        {
+            return movimentosPossiveis()[pos.Linha, pos.Coluna];
+        }
+        public abstract bool[,] movimentosPossiveis();
     }
 }
